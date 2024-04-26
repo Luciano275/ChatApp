@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import SocketProvider from "@/components/providers/socket-provider";
-import VerifyEmailProvider from "@/components/providers/verify-email-provider";
 
 export const runtime = 'edge';
 
@@ -25,9 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <SocketProvider socketUrl={process.env.SOCKET_URL!}>
-          <VerifyEmailProvider>
-            {children}
-          </VerifyEmailProvider>
+          {children}
         </SocketProvider>
       </body>
     </html>
