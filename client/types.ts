@@ -1,4 +1,5 @@
 export type MainFormErrors = {
+  name?: string[];
   email?: string[];
   password?: string[];
 }
