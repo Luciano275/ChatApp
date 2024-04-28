@@ -1,3 +1,3 @@
 export { GET, POST } from '@/auth';
 
-export const edge = 'runtime';
+export const runtime = 'edge'
