@@ -5,6 +5,8 @@ import SocketProvider from "@/components/providers/socket-provider";
 import GlobalErrorProvider from "@/components/providers/global-error-provider";
 import GlobalError from "@/components/GlobalError";
 
+export const runtime = 'edge';
+
 const inter = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
