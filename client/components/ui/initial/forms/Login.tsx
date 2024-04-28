@@ -10,6 +10,9 @@ export default function LoginForm() {
 
   const [showPass, setShowPass] = useState(false)
 
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const providerClassName = 'flex justify-center items-center gap-2 bg-gray-900 rounded-lg p-4 hover:bg-gray-800 text-white'
 
   return (
@@ -28,6 +31,8 @@ export default function LoginForm() {
           name="email"
           id="email"
           ariaDescribedBy="email-error"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
       </div>
       <div className="relative">
@@ -37,6 +42,8 @@ export default function LoginForm() {
           name="password"
           id="password"
           ariaDescribedBy="password-error"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         <span
           className="absolute text-violet-600 right-3 top-5 cursor-pointer hover:text-violet-400"

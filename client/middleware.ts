@@ -12,20 +12,20 @@ export default auth((request) => {
   const isOnApiAuth = nextUrl.pathname.startsWith(API_AUTH_PREFIX)
   const isOnAuthRoute = AUTH_ROUTES.includes(nextUrl.pathname);
 
-  if (isOnApiAuth) return null;
+  if (isOnApiAuth) return;
 
   if (isOnAuthRoute) {
     if (isLoggedIn) {
       return Response.redirect(new URL(DEFAULT_REDIRECT, nextUrl))
     }
-    return null;
+    return;
   }
 
   if (!isLoggedIn && !isOnAuthRoute) {
     return Response.redirect(new URL('/', nextUrl))
   }
 
-  return null;
+  return;
 
 })
 
