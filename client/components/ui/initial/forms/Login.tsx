@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -6,23 +6,62 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import EyeButton from "./Eye";
+import { useGlobalError } from "@/components/providers/global-error-provider";
+import { SignInAction } from "@/lib/actions";
+import { ResponseMainFormAction } from "@/types";
+import FormError from "./Error";
+import FormMessage from "./FormMessage";
 
 export default function LoginForm() {
+  const { setError } = useGlobalError();
 
-  const [showPass, setShowPass] = useState(false)
+  const [showPass, setShowPass] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [state, setState] = useState<ResponseMainFormAction>({
+    message: null,
+    success: null,
+    errors: {}
+  })
 
-  const providerClassName = 'flex justify-center items-center gap-2 bg-gray-900 rounded-lg py-3 2x:py-4 px-4 hover:bg-gray-800 text-white'
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const providerClassName =
+    "flex justify-center items-center gap-2 bg-gray-900 rounded-lg py-3 2x:py-4 px-4 hover:bg-gray-800 text-white";
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+
+    try {
+
+      const results = await SignInAction(formData);
+
+      if (results) {
+        setState(results);
+      }
+
+    }catch (e) {
+      setError((e as any).message as string);
+    }
+  };
 
   return (
-    <form className="w-full max-w-[450px] mx-auto flex flex-col gap-4 px-4">
+    <form
+      className="w-full max-w-[450px] mx-auto flex flex-col gap-4 px-4"
+      onSubmit={handleSubmit}
+    >
       <header className="py-4">
         <h1 className="text-3xl font-bold text-white py-2">Sign In</h1>
         <p className="text-neutral-400">
           Don&apos;t have an account?
-          <Link href='/signup' className="text-blue-500 hover:underline"> Sign up</Link>
+          <Link href="/signup" className="text-blue-500 hover:underline">
+            {" "}
+            Sign up
+          </Link>
         </p>
       </header>
       <div>
@@ -35,10 +74,16 @@ export default function LoginForm() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
+
+        <FormError
+          id="email-error"
+          field="email"
+          state={state}
+        />
       </div>
       <div className="relative">
         <Input
-          type={!showPass ? 'password' : 'text'}
+          type={!showPass ? "password" : "text"}
           placeholder="Password"
           name="password"
           id="password"
@@ -46,24 +91,30 @@ export default function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        
-        <EyeButton
-          setShowPass={setShowPass}
-          showPass={showPass}
+        <FormError
+          id="password-error"
+          field="password"
+          state={state}
         />
+
+        <EyeButton setShowPass={setShowPass} showPass={showPass} />
       </div>
-      
+
       <Button text="Sign In" />
+
+      <FormMessage state={state} />
 
       <div className="relative py-4 px-10">
         <hr className="border-neutral-700" />
-        <span className="absolute w-fit top-1 left-0 right-0 mx-auto bg-gray-950 px-2 text-neutral-300">or</span>
+        <span className="absolute w-fit top-1 left-0 right-0 mx-auto bg-gray-950 px-2 text-neutral-300">
+          or
+        </span>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <button className={providerClassName} type="button">
           <Image
-            src={'/google.svg'}
-            alt={'Google Logo'}
+            src={"/google.svg"}
+            alt={"Google Logo"}
             width={28}
             height={28}
           />
@@ -71,8 +122,8 @@ export default function LoginForm() {
         </button>
         <button className={providerClassName} type="button">
           <Image
-            src={'/github.svg'}
-            alt={'GitHub Logo'}
+            src={"/github.svg"}
+            alt={"GitHub Logo"}
             width={28}
             height={28}
           />
@@ -80,5 +131,5 @@ export default function LoginForm() {
         </button>
       </div>
     </form>
-  )
+  );
 }

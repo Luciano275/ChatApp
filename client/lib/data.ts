@@ -34,7 +34,9 @@ export async function getVerificationTokenByEmail(email: string) {
 export async function generateVerificationToken(email: string) {
   try {
     const token = uuidv7();
-    const expires = new Date((new Date().getTime() + 3600) * 30)
+
+    const nowDate = new Date();
+    const expires = new Date(nowDate.setDate(nowDate.getDate() + 30));
 
     const existingToken = await getVerificationTokenByEmail(email);
 

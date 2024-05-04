@@ -58,8 +58,9 @@ export async function SignInAction(formData: FormData): Promise<ResponseMainForm
   const { email, password } = parsedData.data;
 
   const existingUser = await getUserByEmail(email);
+  const comparePassword = existingUser?.password && bcrypt.compareSync(password, existingUser.password)
 
-  if (!existingUser || !existingUser.email || !existingUser.password) {
+  if (!existingUser || !existingUser.email || !existingUser.password || !comparePassword) {
     return {
       message: 'Invalid credentials',
       success: false
@@ -68,20 +69,23 @@ export async function SignInAction(formData: FormData): Promise<ResponseMainForm
 
   if (!existingUser.emailVerified) {
     const token = await generateVerificationToken(email);
+
+    //TODO: Send an email
+    
     return {
-      message: 'Email confirmation sent',
-      success: false
-    }
+      message: "Email confirmation sent",
+      success: false,
+    };
   }
 
   try {
     
-    // await signIn('credentials', {
-    //   email,
-    //   password,
-    //   redirect: true,
-    //   redirectTo: DEFAULT_REDIRECT
-    // })
+    await signIn('credentials', {
+      email,
+      password,
+      redirect: true,
+      redirectTo: DEFAULT_REDIRECT
+    })
 
   }catch (e) {
     console.error(e);
