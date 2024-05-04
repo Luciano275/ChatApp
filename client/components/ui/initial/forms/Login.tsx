@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import Input from "./Input";
+import Button from "./Button";
+import EyeButton from "./Eye";
 
 export default function LoginForm() {
 
@@ -13,7 +14,7 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const providerClassName = 'flex justify-center items-center gap-2 bg-gray-900 rounded-lg p-4 hover:bg-gray-800 text-white'
+  const providerClassName = 'flex justify-center items-center gap-2 bg-gray-900 rounded-lg py-3 2x:py-4 px-4 hover:bg-gray-800 text-white'
 
   return (
     <form className="w-full max-w-[450px] mx-auto flex flex-col gap-4 px-4">
@@ -45,16 +46,15 @@ export default function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <span
-          className="absolute text-violet-600 right-3 top-5 cursor-pointer hover:text-violet-400"
-          onClick={() => setShowPass((prev) => !prev)}
-        >
-         { !showPass ? <FaEye size={25} /> : <FaEyeSlash size={25} />}
-        </span>
+        
+        <EyeButton
+          setShowPass={setShowPass}
+          showPass={showPass}
+        />
       </div>
-      <button
-        className="w-full p-4 rounded-xl bg-violet-500 text-white font-bold text-lg hover:bg-violet-600"
-      >Sign in</button>
+      
+      <Button text="Sign In" />
+
       <div className="relative py-4 px-10">
         <hr className="border-neutral-700" />
         <span className="absolute w-fit top-1 left-0 right-0 mx-auto bg-gray-950 px-2 text-neutral-300">or</span>

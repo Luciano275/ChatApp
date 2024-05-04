@@ -17,7 +17,7 @@ export default function Input(
       name={name}
       id={id}
       aria-describedby={ariaDescribedBy}
-      className={'w-full py-4 px-6 bg-gray-800 rounded-xl outline-none transition-colors focus:bg-gray-700 border border-transparent focus:border-violet-500 text-lg text-white'}
+      className={'w-full py-3 2xl:py-4 px-6 bg-gray-800 rounded-xl outline-none transition-colors focus:bg-gray-700 border border-transparent focus:border-violet-500 2xl:text-lg text-white'}
       onChange={onChange}
     />
   )

@@ -12,7 +12,7 @@ export default function SignUpPage() {
   return (
     <Main>
       <MainImages type="register" />
-      <div className="flex flex-col justify-center bg-gray-950">
+      <div className="flex flex-1 flex-col justify-center bg-gray-950">
         <RegisterForm />
         <Footer />
       </div>

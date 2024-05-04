@@ -7,9 +7,11 @@ import { ResponseMainFormAction } from "@/types"
 import { Metadata } from "next"
 import Link from "next/link"
 import { useState } from "react"
-import { FaCheckCircle, FaEye, FaEyeSlash } from "react-icons/fa"
+import { FaCheckCircle } from "react-icons/fa"
 import FormError from "./Error"
 import { BiErrorCircle } from "react-icons/bi"
+import Button from "./Button"
+import EyeButton from "./Eye"
 
 export const metadata: Metadata = {
   title: 'Sign Up'
@@ -21,6 +23,7 @@ export default function RegisterForm() {
 
   const [showPass, setShowPass] = useState(false);
 
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -34,11 +37,14 @@ export default function RegisterForm() {
     e.preventDefault();
 
     const formData = new FormData();
+    formData.append('name', name);
     formData.append('email', email);
     formData.append('password', password);
 
     try {
       const rq = await SignupAction(formData);
+
+      console.log(rq);
 
       setState(rq);
     } catch (e) {
@@ -55,6 +61,22 @@ export default function RegisterForm() {
           <Link href='/' className="text-blue-500 hover:underline"> Sign In</Link>
         </p>
       </header>
+      <div>
+        <Input
+          type="text"
+          placeholder="Name"
+          name="name"
+          id="name"
+          ariaDescribedBy="name-error"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <FormError
+          id="name-error"
+          field="name"
+          state={state}
+        />
+      </div>
       <div>
         <Input
           type="email"
@@ -86,16 +108,14 @@ export default function RegisterForm() {
           field="password"
           state={state}
         />
-        <span
-          className="absolute text-violet-600 right-3 top-5 cursor-pointer hover:text-violet-400"
-          onClick={() => setShowPass((prev) => !prev)}
-        >
-          {!showPass ? <FaEye size={25} /> : <FaEyeSlash size={25} />}
-        </span>
+        
+        <EyeButton
+          setShowPass={setShowPass}
+          showPass={showPass}
+        />
       </div>
-      <button
-        className="w-full p-4 rounded-xl bg-violet-500 text-white font-bold text-lg hover:bg-violet-600"
-      >Sign Up</button>
+      
+      <Button text={'Sign Up'} />
 
       {
         state.message && (
