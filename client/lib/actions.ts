@@ -3,7 +3,9 @@
 import { ResponseMainFormAction } from "@/types";
 import { LoginSchema, UserSchema } from "./schemas";
 import bcrypt from 'bcrypt-edge'
-import { registerUser } from "./data";
+import { generateVerificationToken, getUserByEmail, registerUser } from "./data";
+import { signIn } from "@/auth";
+import { DEFAULT_REDIRECT } from "@/routes";
 
 export async function SignupAction(formData: FormData): Promise<ResponseMainFormAction> {
   const parsedData = UserSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -55,5 +57,39 @@ export async function SignInAction(formData: FormData): Promise<ResponseMainForm
 
   const { email, password } = parsedData.data;
 
-  // TODO: Make the login action
+  const existingUser = await getUserByEmail(email);
+
+  if (!existingUser || !existingUser.email || !existingUser.password) {
+    return {
+      message: 'Invalid credentials',
+      success: false
+    }
+  }
+
+  if (!existingUser.emailVerified) {
+    const token = await generateVerificationToken(email);
+    return {
+      message: 'Email confirmation sent',
+      success: false
+    }
+  }
+
+  try {
+    
+    // await signIn('credentials', {
+    //   email,
+    //   password,
+    //   redirect: true,
+    //   redirectTo: DEFAULT_REDIRECT
+    // })
+
+  }catch (e) {
+    console.error(e);
+    throw e;
+  }
+
+  return {
+    message: 'Sign in success!',
+    success: true
+  }
 }
