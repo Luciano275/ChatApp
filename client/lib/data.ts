@@ -1,5 +1,6 @@
 import { db } from "./db";
 import { uuidv7 } from 'uuidv7'
+import {sendVerificationEmail} from "@/lib/mail";
 
 export async function getUserByEmail(email: string) {
   try {
@@ -12,7 +13,22 @@ export async function getUserByEmail(email: string) {
     return results;
   }catch (e) {
     console.error(e);
-    throw new Error('Failed to fetch user by email');
+    throw new Error('Failed to get user by email');
+  }
+}
+
+export async function getUserById(id: string) {
+  try {
+    const results = await db.user.findUnique({
+      where: {
+        id
+      }
+    })
+
+    return results;
+  }catch (e) {
+    console.error(e);
+    throw new Error("Failed to get user by id")
   }
 }
 
@@ -82,6 +98,8 @@ export async function registerUser({
     })
 
     const token = await generateVerificationToken(email);
+
+    await sendVerificationEmail(token.identifier, token.token)
 
     return results;
   }catch (e) {

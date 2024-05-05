@@ -3,13 +3,38 @@ import GitHub from 'next-auth/providers/github';
 import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials'
 import { LoginSchema } from "./lib/schemas";
-import { getUserByEmail } from "./lib/data";
+import {getUserByEmail, getUserById} from "./lib/data";
 import bcrypt from 'bcrypt-edge'
+import {db} from "@/lib/db";
 
 export default {
   pages: {
     signIn: '/',
     error: '/error'
+  },
+  events: {
+    async linkAccount({user}) {
+      await db.user.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          emailVerified: new Date()
+        }
+      })
+    }
+  },
+  callbacks: {
+    async signIn({ user, account }) {
+
+      if (account?.provider !== 'credentials') return true;
+
+      const existingUser = await getUserById(user.id!);
+
+      if (!existingUser?.emailVerified) return false;
+
+      return true;
+    }
   },
   providers: [
     GitHub({
