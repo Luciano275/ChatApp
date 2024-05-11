@@ -1,4 +1,4 @@
-import Footer from "@/components/ui/Footer";
+import Container from "@/components/ui/initial/Container";
 import Main from "@/components/ui/initial/Main";
 import MainImages from "@/components/ui/initial/MainImages";
 import LoginForm from "@/components/ui/initial/forms/Login";
@@ -12,10 +12,9 @@ export default function Home() {
   return (
     <Main>
       <MainImages type="login" />
-      <div className="flex flex-col justify-center bg-gray-950 py-4">
+      <Container>
         <LoginForm />
-        <Footer />
-      </div>
+      </Container>
     </Main>
   );
 }

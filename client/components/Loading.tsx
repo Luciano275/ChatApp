@@ -2,6 +2,21 @@
 
 import { useLoading } from "./providers/loading-provider";
 
+export const Spinner = ({width, height}: {width: number, height: number}) => {
+  return (
+    <span
+      className={`block border-4 border-blue-500 rounded-full border-t-white animate-spin-clockwise`}
+      style={{
+        animationIterationCount: "infinite",
+        animationTimingFunction: "ease-in-out",
+        animationDuration: "1s",
+        width,
+        height
+      }}
+    ></span>
+  );
+}
+
 export default function Loading() {
     const { isLoading } = useLoading()
 
@@ -13,14 +28,7 @@ export default function Loading() {
                 zIndex: 9999,
               }}
             >
-              <span
-                className="block w-[50px] h-[50px] border-4 border-blue-500 rounded-full border-t-white animate-spin-clockwise"
-                style={{
-                  animationIterationCount: "infinite",
-                  animationTimingFunction: "ease-in-out",
-                  animationDuration: "1s",
-                }}
-              ></span>
+              <Spinner width={50} height={50} />
             </div>
           );
     }

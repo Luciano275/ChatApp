@@ -1,4 +1,4 @@
-import Footer from "@/components/ui/Footer"
+import Container from "@/components/ui/initial/Container"
 import Main from "@/components/ui/initial/Main"
 import MainImages from "@/components/ui/initial/MainImages"
 import RegisterForm from "@/components/ui/initial/forms/Register"
@@ -12,10 +12,9 @@ export default function SignUpPage() {
   return (
     <Main>
       <MainImages type="register" />
-      <div className="flex flex-1 flex-col justify-center bg-gray-950">
+      <Container>
         <RegisterForm />
-        <Footer />
-      </div>
+      </Container>
     </Main>
   )
 }

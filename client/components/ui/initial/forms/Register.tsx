@@ -1,6 +1,6 @@
 'use client'
 
-import { useGlobalError } from "@/components/providers/global-error-provider"
+import { useGlobalMessage } from "@/components/providers/global-message-provider"
 import Input from "@/components/ui/initial/forms/Input"
 import { SignupAction } from "@/lib/actions"
 import { ResponseMainFormAction } from "@/types"
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 export default function RegisterForm() {
 
-  const { setError } = useGlobalError()
+  const { setMessage } = useGlobalMessage()
 
   const [showPass, setShowPass] = useState(false);
 
@@ -53,7 +53,7 @@ export default function RegisterForm() {
 
       setState(rq);
     } catch (e) {
-      setError((e as any).message as string);
+      setMessage((e as any).message as string, 'error');
     }
   }
 

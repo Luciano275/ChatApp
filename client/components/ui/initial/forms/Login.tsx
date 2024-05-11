@@ -5,7 +5,7 @@ import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import EyeButton from "./Eye";
-import { useGlobalError } from "@/components/providers/global-error-provider";
+import { useGlobalMessage } from "@/components/providers/global-message-provider";
 import { LoginOAuthAction, SignInAction } from "@/lib/actions";
 import { ResponseMainFormAction } from "@/types";
 import FormError from "./Error";
@@ -14,7 +14,7 @@ import Image from "next/image";
 import { useLoading } from "@/components/providers/loading-provider";
 
 export default function LoginForm() {
-  const { setError } = useGlobalError();
+  const { setMessage } = useGlobalMessage();
 
   const [showPass, setShowPass] = useState(false);
 
@@ -51,7 +51,7 @@ export default function LoginForm() {
         setState(results);
       }
     } catch (e) {
-      setError((e as any).message as string);
+      setMessage((e as any).message as string, 'error');
     }
   };
 
