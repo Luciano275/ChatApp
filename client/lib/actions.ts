@@ -6,6 +6,14 @@ import bcrypt from 'bcrypt-edge'
 import { generateVerificationToken, getUserByEmail, registerUser } from "./data";
 import { signIn } from "@/auth";
 import { DEFAULT_REDIRECT } from "@/routes";
+import { AuthError } from "next-auth";
+
+export async function LoginOAuthAction(provider: 'github' | 'google') {
+  await signIn(provider, {
+    redirect: true,
+    redirectTo: DEFAULT_REDIRECT
+  })
+}
 
 export async function SignupAction(formData: FormData): Promise<ResponseMainFormAction> {
   const parsedData = UserSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -69,8 +77,6 @@ export async function SignInAction(formData: FormData): Promise<ResponseMainForm
 
   if (!existingUser.emailVerified) {
     const token = await generateVerificationToken(email);
-
-    //TODO: Send an email
     
     return {
       message: "Email confirmation sent",
@@ -88,7 +94,17 @@ export async function SignInAction(formData: FormData): Promise<ResponseMainForm
     })
 
   }catch (e) {
-    console.error(e);
+    
+    if (e instanceof AuthError) {
+      switch(e.type) {
+        case 'CredentialsSignin':
+          return {
+            message: 'Invalid credentials',
+            success: false
+          }
+      }
+    }
+
     throw e;
   }
 

@@ -1,16 +1,17 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import EyeButton from "./Eye";
 import { useGlobalError } from "@/components/providers/global-error-provider";
-import { SignInAction } from "@/lib/actions";
+import { LoginOAuthAction, SignInAction } from "@/lib/actions";
 import { ResponseMainFormAction } from "@/types";
 import FormError from "./Error";
 import FormMessage from "./FormMessage";
+import Image from "next/image";
+import { useLoading } from "@/components/providers/loading-provider";
 
 export default function LoginForm() {
   const { setError } = useGlobalError();
@@ -20,11 +21,13 @@ export default function LoginForm() {
   const [state, setState] = useState<ResponseMainFormAction>({
     message: null,
     success: null,
-    errors: {}
-  })
+    errors: {},
+  });
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { setIsLoading } = useLoading();
 
   const providerClassName =
     "flex justify-center items-center gap-2 bg-gray-900 rounded-lg py-3 2x:py-4 px-4 hover:bg-gray-800 text-white";
@@ -33,21 +36,28 @@ export default function LoginForm() {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('email', email);
-    formData.append('password', password);
+    formData.append("email", email);
+    formData.append("password", password);
 
     try {
 
+      setIsLoading(true);
+
       const results = await SignInAction(formData);
+
+      setIsLoading(false);
 
       if (results) {
         setState(results);
       }
-
-    }catch (e) {
+    } catch (e) {
       setError((e as any).message as string);
     }
   };
+
+  const onLogin = async (provider: 'google' | 'github') => {
+    await LoginOAuthAction(provider)
+  }
 
   return (
     <form
@@ -75,11 +85,7 @@ export default function LoginForm() {
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <FormError
-          id="email-error"
-          field="email"
-          state={state}
-        />
+        <FormError id="email-error" field="email" state={state} />
       </div>
       <div className="relative">
         <Input
@@ -91,11 +97,7 @@ export default function LoginForm() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <FormError
-          id="password-error"
-          field="password"
-          state={state}
-        />
+        <FormError id="password-error" field="password" state={state} />
 
         <EyeButton setShowPass={setShowPass} showPass={showPass} />
       </div>
@@ -110,23 +112,22 @@ export default function LoginForm() {
           or
         </span>
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <button className={providerClassName} type="button">
-          <Image
-            src={"/google.svg"}
-            alt={"Google Logo"}
-            width={28}
-            height={28}
-          />
+        <button
+          className={providerClassName}
+          type="button"
+          onClick={() => onLogin('google')}
+        >
+          <Image src={"/google.svg"} alt={"Google Logo"} width={28} height={28} />
           Google
         </button>
-        <button className={providerClassName} type="button">
-          <Image
-            src={"/github.svg"}
-            alt={"GitHub Logo"}
-            width={28}
-            height={28}
-          />
+        <button
+          className={providerClassName}
+          type="button"
+          onClick={() => onLogin('github')}
+        >
+          <Image src={"/github.svg"} alt={"GitHub Logo"} width={28} height={28} />
           GitHub
         </button>
       </div>
