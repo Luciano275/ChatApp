@@ -7,12 +7,11 @@ import { ResponseMainFormAction } from "@/types"
 import { Metadata } from "next"
 import Link from "next/link"
 import { useState } from "react"
-import { FaCheckCircle } from "react-icons/fa"
 import FormError from "./Error"
-import { BiErrorCircle } from "react-icons/bi"
 import Button from "./Button"
 import EyeButton from "./Eye"
 import FormMessage from "./FormMessage"
+import { useLoading } from "@/components/providers/loading-provider"
 
 export const metadata: Metadata = {
   title: 'Sign Up'
@@ -34,6 +33,8 @@ export default function RegisterForm() {
     errors: {}
   })
 
+  const { setIsLoading } = useLoading();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -43,9 +44,12 @@ export default function RegisterForm() {
     formData.append('password', password);
 
     try {
+
+      setIsLoading(true);
+
       const rq = await SignupAction(formData);
 
-      console.log(rq);
+      setIsLoading(false);
 
       setState(rq);
     } catch (e) {

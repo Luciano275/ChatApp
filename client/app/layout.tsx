@@ -4,6 +4,8 @@ import "./globals.css";
 import SocketProvider from "@/components/providers/socket-provider";
 import GlobalErrorProvider from "@/components/providers/global-error-provider";
 import GlobalError from "@/components/GlobalError";
+import LoadingProvider from "@/components/providers/loading-provider";
+import Loading from "@/components/Loading";
 
 const inter = Montserrat({ subsets: ["latin"] });
 
@@ -23,12 +25,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <GlobalErrorProvider>
-          <GlobalError />
-          <SocketProvider socketUrl={process.env.SOCKET_URL!}>
-            {children}
-          </SocketProvider>
-        </GlobalErrorProvider>
+        <LoadingProvider>
+          <Loading />
+          <GlobalErrorProvider>
+            <GlobalError />
+            <SocketProvider socketUrl={process.env.SOCKET_URL!}>
+              {children}
+            </SocketProvider>
+          </GlobalErrorProvider>
+        </LoadingProvider>
       </body>
     </html>
   );
