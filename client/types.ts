@@ -9,3 +9,8 @@ export type ResponseMainFormAction = {
   message: null | string;
   success: null | boolean;
 }
+
+export type ResponseVerificationAction = {
+  error?: string;
+  success?: string;
+}

@@ -47,6 +47,21 @@ export async function getVerificationTokenByEmail(email: string) {
   }
 }
 
+export async function getVerificationTokenByToken(token: string) {
+  try {
+    const verificationToken = await db.verificationToken.findFirst({
+      where: {
+        token: token
+      }
+    })
+
+    return verificationToken;
+  }catch (e) {
+    console.error(e);
+    throw new Error('Failed to get verification token')
+  }
+}
+
 export async function generateVerificationToken(email: string) {
   try {
     const token = uuidv7();

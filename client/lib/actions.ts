@@ -7,6 +7,7 @@ import { generateVerificationToken, getUserByEmail, registerUser } from "./data"
 import { signIn } from "@/auth";
 import { DEFAULT_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { sendVerificationEmail } from "./mail";
 
 export async function LoginOAuthAction(provider: 'github' | 'google') {
   await signIn(provider, {
@@ -77,6 +78,8 @@ export async function SignInAction(formData: FormData): Promise<ResponseMainForm
 
   if (!existingUser.emailVerified) {
     const token = await generateVerificationToken(email);
+
+    await sendVerificationEmail(token.identifier, token.token)
     
     return {
       message: "Email confirmation sent",
