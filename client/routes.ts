@@ -1,6 +1,11 @@
+export const PUBLIC_ROUTES = [
+  '/auth/new-verification'
+]
+
 export const AUTH_ROUTES = [
   '/',
-  '/signup'
+  '/signup',
+  '/auth/error'
 ]
 
 export const API_AUTH_PREFIX = '/api/auth'
