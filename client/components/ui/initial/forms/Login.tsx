@@ -11,10 +11,11 @@ import { ResponseMainFormAction } from "@/types";
 import FormError from "./Error";
 import FormMessage from "./FormMessage";
 import Image from "next/image";
-import { useLoading } from "@/components/providers/loading-provider";
 
 export default function LoginForm() {
   const { setMessage } = useGlobalMessage();
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const [showPass, setShowPass] = useState(false);
 
@@ -26,8 +27,6 @@ export default function LoginForm() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const { setIsLoading } = useLoading();
 
   const providerClassName =
     "flex justify-center items-center gap-2 bg-gray-900 rounded-lg py-3 2x:py-4 px-4 hover:bg-gray-800 text-white";
@@ -102,7 +101,7 @@ export default function LoginForm() {
         <EyeButton setShowPass={setShowPass} showPass={showPass} />
       </div>
 
-      <Button text="Sign In" />
+      <Button text="Sign In" isLoading={isLoading} />
 
       <FormMessage state={state} />
 

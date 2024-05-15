@@ -2,10 +2,10 @@
 
 import { useLoading } from "./providers/loading-provider";
 
-export const Spinner = ({width, height}: {width: number, height: number}) => {
+export const Spinner = ({width, height, className}: {width: number, height: number, className?: string}) => {
   return (
     <span
-      className={`block border-4 border-blue-500 rounded-full border-t-white animate-spin-clockwise`}
+      className={`block border-4 border-blue-500 rounded-full border-t-white animate-spin-clockwise ${className}`}
       style={{
         animationIterationCount: "infinite",
         animationTimingFunction: "ease-in-out",
