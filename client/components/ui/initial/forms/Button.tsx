@@ -13,7 +13,7 @@ export default function Button(
     >
       {text}
       {
-        isLoading && <Spinner width={25} height={25} className="absolute top-4 right-3 z-20" />
+        isLoading && <Spinner width={25} height={25} className="absolute top-3 right-3 z-20" />
       }
     </button>
   )

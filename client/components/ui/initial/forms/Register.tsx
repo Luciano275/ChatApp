@@ -11,7 +11,6 @@ import FormError from "./Error"
 import Button from "./Button"
 import EyeButton from "./Eye"
 import FormMessage from "./FormMessage"
-import { useLoading } from "@/components/providers/loading-provider"
 
 export const metadata: Metadata = {
   title: 'Sign Up'
@@ -22,6 +21,7 @@ export default function RegisterForm() {
   const { setMessage } = useGlobalMessage()
 
   const [showPass, setShowPass] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -32,8 +32,6 @@ export default function RegisterForm() {
     success: null,
     errors: {}
   })
-
-  const { setIsLoading } = useLoading();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -120,7 +118,7 @@ export default function RegisterForm() {
         />
       </div>
       
-      <Button text={'Sign Up'} />
+      <Button text={'Sign Up'} isLoading={isLoading} />
 
       <FormMessage state={state} />
     </form>
