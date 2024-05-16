@@ -1,22 +1,9 @@
-import { auth, signOut } from "@/auth"
+import InitialMessage from "@/components/ui/messenger/InitialMessage";
 
 export default async function MessengerPage() {
-
-  const session = await auth();
-
   return (
-    <main>
-      <h1>Messenger</h1>
-      {JSON.stringify(session?.user)}
-      <form action={async () => {
-        'use server';
-        await signOut({
-          redirect: true,
-          redirectTo: '/'
-        });
-      }}>
-        <button>Salir</button>
-      </form>
-    </main>
+    <>
+      <InitialMessage />
+    </>
   )
 }

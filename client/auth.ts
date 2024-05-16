@@ -3,6 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "./lib/db";
 import authConfig from "./auth.config";
 import { getUserById } from "./lib/data";
+import { getProfilePhotoAction } from "./lib/s3";
 
 export const {
   handlers: { GET, POST },
