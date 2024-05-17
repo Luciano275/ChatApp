@@ -40,6 +40,8 @@ export const {
 
       if (profilePhoto.success) {
         user.image = profilePhoto.success.url;
+        //@ts-ignore
+        user.provider = account.provider
       }
 
       return true;
