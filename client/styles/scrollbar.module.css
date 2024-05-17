@@ -1,0 +1,12 @@
+.custom-scrollbar::-webkit-scrollbar {
+    background: rgb(3 7 18);
+    width: 12px;
+    border-top-right-radius: 0.75rem;
+    border-bottom-right-radius: 0.75rem;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgb(31 41 55);
+    border: 3px solid rgb(3 7 18);
+    border-radius: 0.75rem;
+}

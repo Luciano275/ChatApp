@@ -2,6 +2,8 @@ import { ContainerUsers } from "./containers";
 import { signOut } from "@/auth";
 import { GoSignOut } from "react-icons/go";
 import Header from "./Header";
+import AddFriendButton from "./AddFriend";
+import scrollBarStyles from '@/styles/scrollbar.module.css'
 
 export default function Users() {
     return (
@@ -9,8 +11,14 @@ export default function Users() {
         
         <Header />
 
-        <div className="grow">
-          users
+        <div className="grow py-4 flex flex-col gap-4 overflow-hidden">
+          
+          <AddFriendButton />
+
+          <div className={`grow rounded-xl flex flex-col gap-4 overflow-y-auto ${scrollBarStyles['custom-scrollbar']}`}>
+            
+          </div>
+
         </div>
         <form action={async () => {
           'use server'
