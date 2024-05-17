@@ -31,10 +31,16 @@ export const {
     async signIn({ user, account }) {
 
       if (account?.provider !== 'credentials') return true;
-
+      
       const existingUser = await getUserById(user.id!);
 
       if (!existingUser?.emailVerified) return false;
+
+      const profilePhoto = await getProfilePhotoAction(user?.image || 'default.png');
+
+      if (profilePhoto.success) {
+        user.image = profilePhoto.success.url;
+      }
 
       return true;
     }
