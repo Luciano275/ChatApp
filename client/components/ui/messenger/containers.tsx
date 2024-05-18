@@ -18,7 +18,7 @@ export const ContainerMessages = ({
     <div
       className={`${
         HOME_PATH !== pathname ? "flex" : "hidden md:flex"
-      } rounded-xl grow bg-gray-950 ${className && className}`}
+      } rounded-xl grow bg-gray-950 md:animate-fade-in ${className && className}`}
     >
       {children}
     </div>
@@ -36,7 +36,7 @@ export const ContainerUsers = (
     const pathname = usePathname();
 
     return (
-        <div className={`${HOME_PATH !== pathname ? 'hidden md:flex' : 'flex'} rounded-xl flex-col min-w-[260px] w-full md:max-w-[350px] animate-fade-in ${className && className}`}>
+        <div className={`${HOME_PATH !== pathname ? 'hidden md:flex' : 'flex'} rounded-xl flex-col min-w-[260px] w-full md:max-w-[350px] ${className && className}`}>
             {children}
         </div>
     )
