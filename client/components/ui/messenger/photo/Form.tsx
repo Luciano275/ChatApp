@@ -27,18 +27,22 @@ export default function ProfilePhotoForm(
 
     const [image, setImage] = useState<string>(profilePhoto)
 
+    const clearInfo = () => setInfo({
+        message: null,
+        success: null
+    })
+
     const clear = () => {
         setFile(null);
         setImage(profilePhoto);
-        setInfo({
-            message: null,
-            success: null
-        })
+        clearInfo();
     }
 
     useEffect(() => {
         
         if (file) {
+
+            clearInfo();
 
             const ext = file.type.match(regexToExtWithSlash);
 
