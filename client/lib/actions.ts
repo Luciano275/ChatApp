@@ -33,6 +33,18 @@ export async function SignupAction(formData: FormData): Promise<ResponseMainForm
 
   try {
 
+    const isUserExists = await getUserByEmail(email);
+
+    if (isUserExists) {
+      return {
+        errors: {
+          email: ['Try with other email']
+        },
+        message: 'That email is already exists',
+        success: false
+      }
+    }
+
     await registerUser({
       name,
       email,

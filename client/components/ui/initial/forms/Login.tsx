@@ -50,6 +50,7 @@ export default function LoginForm() {
         setState(results);
       }
     } catch (e) {
+      setIsLoading(false);
       setMessage((e as any).message as string, 'error');
     }
   };

@@ -17,6 +17,26 @@ export async function getUserByEmail(email: string) {
   }
 }
 
+export async function getProviderByEmail(email: string) {
+  try {
+    const result = await db.user.findUnique({
+      where: {email},
+      select: {
+        accounts: {
+          select: {
+            provider: true
+          }
+        }
+      }
+    })
+
+    return result;
+  }catch (e) {
+    console.error(e);
+    throw new Error('Failed to get provider by email');
+  }
+}
+
 export async function getUserById(id: string) {
   try {
     const results = await db.user.findUnique({

@@ -3,11 +3,11 @@ import Image from "next/image";
 export default function MainImages(
   { type }
   : {
-    type: 'register' | 'login' | 'confirm' | '404'
+    type: 'register' | 'login' | 'confirm' | '404' | 'server'
   }
 ) {
 
-  const imgSrc = `/assets/${type === 'login' ? 'signin.svg' : type === 'register' ? 'signup.svg' : type === 'confirm' ? 'confirm.svg' : '404.svg'}`
+  const imgSrc = `/assets/${type === 'login' ? 'signin.svg' : type === 'register' ? 'signup.svg' : type === 'confirm' ? 'confirm.svg' : type === '404' ? '404.svg' : 'server.svg'}`
 
   return (
     <>

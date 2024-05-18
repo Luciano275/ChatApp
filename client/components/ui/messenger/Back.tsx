@@ -11,7 +11,7 @@ export default function BackButton() {
     
     if (HOME_PATH !== pathname) {
         return (
-            <Link href="/messenger" className="text-blue-400">
+            <Link href="/messenger" className="block md:hidden text-blue-400">
                 <BsArrowLeftCircle size={25} />
             </Link>
         )

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   title: 'Sign In'
 }
 
-export default function Home() {
+export default function SignInPage() {
   return (
     <Main>
       <MainImages type="login" />
