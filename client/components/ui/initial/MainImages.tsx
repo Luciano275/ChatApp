@@ -17,6 +17,7 @@ export default function MainImages(
           alt='Sign in image'
           width={200}
           height={200}
+          priority
         />
       </div>
       <div className="hidden lg:flex justify-center items-center px-4">
@@ -25,6 +26,7 @@ export default function MainImages(
           alt='Sign in image'
           width={500}
           height={500}
+          priority
         />
       </div>
     </>

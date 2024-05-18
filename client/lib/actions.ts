@@ -1,13 +1,14 @@
 'use server';
 
-import { ResponseMainFormAction } from "@/types";
+import { ResponseMainFormAction, ResponseVerificationAction } from "@/types";
 import { LoginSchema, UserSchema } from "./schemas";
 import bcrypt from 'bcrypt-edge'
-import { generateVerificationToken, getUserByEmail, registerUser } from "./data";
+import { changeImage, generateVerificationToken, getUserByEmail, registerUser } from "./data";
 import { signIn } from "@/auth";
 import { DEFAULT_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 import { sendVerificationEmail } from "./mail";
+import { revalidatePath } from "next/cache";
 
 export async function LoginOAuthAction(provider: 'github' | 'google') {
   await signIn(provider, {
@@ -126,5 +127,23 @@ export async function SignInAction(formData: FormData): Promise<ResponseMainForm
   return {
     message: 'Sign in success!',
     success: true
+  }
+}
+
+export async function ChangeProfilePhotoAction(email: string, image: string): Promise<ResponseVerificationAction> {
+  try {
+
+    await changeImage(image, email)
+
+    revalidatePath('/messenger');
+
+    return {
+      success: 'Profile photo edited!'
+    }
+  }catch (e) {
+    console.error(e);
+    return {
+      error: 'Something went wrong'
+    }
   }
 }

@@ -26,7 +26,7 @@ export default function ErrorPage(
         <h1 className="text-3xl font-bold text-blue-400 text-center py-3 px-2">
           Something went wrong
         </h1>
-        <button className="w-fit bg-gray-800 text-white py-2 px-5 rounded-full hover:bg-gray-700 mx-auto">
+        <button onClick={() => reset()} className="w-fit bg-gray-800 text-white py-2 px-5 rounded-full hover:bg-gray-700 mx-auto">
           Try Again
         </button>
       </Container>

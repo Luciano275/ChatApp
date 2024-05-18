@@ -25,7 +25,7 @@ export default async function ProfilePhotoPage() {
             <section className="flex flex-col items-center gap-4 px-2 py-4 md:py-8">
                 <h2 className="text-4xl pb-4 px-2 text-white">Profile</h2>
                 
-                <ProfilePhotoForm profilePhoto={session.user?.image!} />
+                <ProfilePhotoForm profilePhoto={session.user?.image!} email={session.user?.email!} />
             </section>
         </ContainerMessages>
     )

@@ -142,3 +142,23 @@ export async function registerUser({
     throw new Error('Failed to register user')
   }
 }
+
+export async function changeImage(image: string, email: string) {
+  try {
+
+    const results = await db.user.update({
+      where: {
+        email
+      },
+      data: {
+        image
+      }
+    })
+
+    return results;
+
+  }catch (e) {
+    console.error(e);
+    throw new Error('Failed to change the profile photo')
+  }
+}

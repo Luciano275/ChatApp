@@ -1,7 +1,10 @@
 'use client'
 
+import { ChangeProfilePhotoAction } from '@/lib/actions';
+import { getSignedUrlAction } from '@/lib/s3';
 import { isImage, regexToExtWithSlash } from '@/lib/utils';
 import fileStyles from '@/styles/file.module.css'
+import { useRouter } from 'next/navigation';
 import { Fragment, useEffect, useState } from 'react'
 import { BiError } from 'react-icons/bi';
 import { FaCheckCircle } from 'react-icons/fa';
@@ -13,19 +16,25 @@ type InfoType = {
 }
 
 export default function ProfilePhotoForm(
-    {profilePhoto}
+    {profilePhoto, email}
     : {
-        profilePhoto: string
+        profilePhoto: string;
+        email: string;
     }
 ) {
 
     const [file, setFile] = useState<File | null>(null);
+    const [extension, setExtension] = useState<string | null>(null)
     const [info, setInfo] = useState<InfoType>({
         message: null,
         success: null
     })
 
     const [image, setImage] = useState<string>(profilePhoto)
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const { refresh } = useRouter();
 
     const clearInfo = () => setInfo({
         message: null,
@@ -54,6 +63,8 @@ export default function ProfilePhotoForm(
                 return;
             }
 
+            setExtension(ext[1]);
+
             const validate = isImage(ext[1]);
 
             if (!validate) {
@@ -67,10 +78,78 @@ export default function ProfilePhotoForm(
             const imageUrl = URL.createObjectURL(file);
 
             setImage(imageUrl);
+            setInfo({message: null, success: true})
 
         }
 
     }, [file])
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      if (info.success && file && extension) {
+        setIsLoading(true);
+
+        try {
+
+          const signedUrl = await getSignedUrlAction(extension);
+
+          if (signedUrl.error) {
+            setInfo({
+              message: signedUrl.error,
+              success: false
+            })
+            return;
+          }
+
+          const rq = await fetch(signedUrl.success?.url!, {
+            method: 'PUT',
+            body: file,
+            headers: {
+              'Content-Type': file.type
+            }
+          })
+
+          if (!rq.ok) {
+            setInfo({
+              message: rq.statusText,
+              success: false
+            })
+            return;
+          }
+
+          const imageFullName = signedUrl.success?.key!;
+
+          const results = await ChangeProfilePhotoAction(email, imageFullName);
+
+          if (results.error) {
+            setInfo({
+              message: results.error,
+              success: false
+            })
+            return;
+          }
+
+          window.location.reload();
+
+        } catch (e) {
+          console.error(e);
+          setInfo({
+            message: (e as any).message,
+            success: false
+          })
+        } finally {
+          setIsLoading(false);
+        }
+
+        return;
+      }
+
+      setInfo({
+        message: 'Select an image',
+        success: false
+      })
+    }
 
     return (
       <Fragment>
@@ -89,7 +168,10 @@ export default function ProfilePhotoForm(
             </span>
           )}
         </div>
-        <form className="w-full max-w-[320px] flex flex-col gap-4 mt-4">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-[320px] flex flex-col gap-4 mt-4"
+        >
           <div className="relative" id={fileStyles.containerFile}>
             <input
               type="file"
@@ -103,7 +185,13 @@ export default function ProfilePhotoForm(
             </span>
           </div>
 
-          <button className="p-2 text-white bg-gray-900 rounded-xl hover:bg-gray-800">
+          <button
+            className={`p-2 text-white ${
+              isLoading
+                ? "bg-gray-800 cursor-default"
+                : "bg-gray-900 hover:bg-gray-800"
+            } rounded-xl`}
+          >
             Save
           </button>
 

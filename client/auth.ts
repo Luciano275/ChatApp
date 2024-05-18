@@ -36,13 +36,21 @@ export const {
 
       if (!existingUser?.emailVerified) return false;
 
-      const profilePhoto = await getProfilePhotoAction(user?.image || 'default.png');
+      const profilePhoto = await getProfilePhotoAction(user.image! || 'default.png');
 
       if (profilePhoto.success) {
         user.image = profilePhoto.success.url;
       }
 
       return true;
+    },
+    async session({session, token}) {
+
+      if (token) {
+        session.user.id = token.sub!;
+      }
+      
+      return session;
     }
   },
   adapter: PrismaAdapter(db),

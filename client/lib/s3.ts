@@ -17,10 +17,11 @@ type ResponseS3 = {
     error?: string;
     success?: {
         url: string;
+        key: string;
     };
 }
 
-export async function getSignedUrlAction(): Promise<ResponseS3> {
+export async function getSignedUrlAction(ext: string): Promise<ResponseS3> {
 
     const session = await auth();
 
@@ -30,9 +31,11 @@ export async function getSignedUrlAction(): Promise<ResponseS3> {
         }
     }
 
+    const key = `${session.user.id}.${ext}`
+
     const command = new PutObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME!,
-        Key: `${session.user.id}`
+        Key: key
     })
 
     const signedURL = await getSignedUrl(s3, command, {
@@ -41,7 +44,8 @@ export async function getSignedUrlAction(): Promise<ResponseS3> {
 
     return {
         success: {
-            url: signedURL
+            url: signedURL,
+            key: key
         }
     }
 }
@@ -49,10 +53,12 @@ export async function getSignedUrlAction(): Promise<ResponseS3> {
 export async function getProfilePhotoAction(key: string): Promise<ResponseS3> {
     const extensionMatch = key.match(regexToExt);
     const isAnImage = extensionMatch ? isImage(extensionMatch[1]) : false
+
+    const profilePhotoName = isAnImage ? key : 'default.png'
     
     const command = new GetObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME!,
-        Key: isAnImage ? key : 'default.png'
+        Key: profilePhotoName
     })
 
     try {
@@ -61,7 +67,8 @@ export async function getProfilePhotoAction(key: string): Promise<ResponseS3> {
             success: {
                 url: await getSignedUrl(s3, command, {
                     expiresIn: 3600*24
-                })
+                }),
+                key: profilePhotoName
             }
         }
 
