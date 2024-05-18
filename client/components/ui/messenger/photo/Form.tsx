@@ -1,5 +1,6 @@
 'use client'
 
+import { Spinner } from '@/components/Loading';
 import { ChangeProfilePhotoAction } from '@/lib/actions';
 import { getSignedUrlAction } from '@/lib/s3';
 import { isImage, regexToExtWithSlash } from '@/lib/utils';
@@ -138,8 +139,6 @@ export default function ProfilePhotoForm(
             message: (e as any).message,
             success: false
           })
-        } finally {
-          setIsLoading(false);
         }
 
         return;
@@ -190,9 +189,14 @@ export default function ProfilePhotoForm(
               isLoading
                 ? "bg-gray-800 cursor-default"
                 : "bg-gray-900 hover:bg-gray-800"
-            } rounded-xl`}
+            } rounded-xl relative`}
           >
             Save
+            {
+              isLoading && (
+                <Spinner width={30} height={30} className={`absolute right-1 top-1`} />
+              )
+            }
           </button>
 
           {info.message && (

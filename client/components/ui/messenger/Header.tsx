@@ -25,7 +25,10 @@ export default async function Header(
               <img
                 src={session.user?.image!}
                 alt={"Photo"}
-                className="w-full max-w-full h-full max-h-full object-cover object-center"
+                className="w-full max-w-full h-full max-h-full object-cover object-center hover:contrast-50"
+                style={{
+                  transition: 'filter 250ms ease'
+                }}
               />
             </Link>
           </div>
