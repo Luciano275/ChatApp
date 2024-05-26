@@ -49,7 +49,7 @@ export default function ProfilePhotoForm(
     }
 
     useEffect(() => {
-        
+
         if (file) {
 
             clearInfo();
