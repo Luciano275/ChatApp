@@ -4,7 +4,7 @@ import BackButton from "@/components/BackButton";
 import { Spinner } from "@/components/Loading";
 import { useGlobalMessage } from "@/components/providers/global-message-provider";
 import { NewVerificationAction } from "@/lib/new-verification";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 

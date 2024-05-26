@@ -39,7 +39,7 @@ export const {
       const profilePhoto = await getProfilePhotoAction(user.image! || 'default.png');
 
       if (profilePhoto.success) {
-        user.image = profilePhoto.success.url;
+        user.image = `${process.env.AWS_BUCKET_URL!}/${user.image}`;
       }
 
       return true;
