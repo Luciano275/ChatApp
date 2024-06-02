@@ -36,18 +36,20 @@ export const {
 
       if (!existingUser?.emailVerified) return false;
 
-      const profilePhoto = await getProfilePhotoAction(user.image! || 'default.png');
-
-      if (profilePhoto.success) {
-        user.image = `${process.env.AWS_BUCKET_URL!}/${user.image}`;
-      }
-
       return true;
     },
-    async session({session, token}) {
+    async session({session, token, user}) {
 
       if (token) {
         session.user.id = token.sub!;
+
+        if (session.user) {
+          const profilePhoto = await getProfilePhotoAction(session.user.image!);
+
+          if (profilePhoto.success) {
+            session.user.image = profilePhoto.success.url;
+          }
+        }
       }
       
       return session;
