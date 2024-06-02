@@ -4,7 +4,12 @@ import { ContainerMessages } from "@/components/ui/messenger/containers";
 import AddFriendForm from "@/components/ui/messenger/friend/FriendForm";
 import SearchUsersTable from "@/components/ui/messenger/friend/UsersTable";
 import { SearchUsersSkeleton } from "@/components/ui/skeletons/friends/search-users";
+import { Metadata } from "next";
 import { Suspense } from "react";
+
+export const metadata: Metadata = {
+  title: 'Add Friend'
+}
 
 export default async function AddFriendPage(
     {searchParams}

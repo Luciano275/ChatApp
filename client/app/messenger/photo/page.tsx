@@ -3,7 +3,12 @@ import Header from "@/components/ui/messenger/Header";
 import { ContainerMessages } from "@/components/ui/messenger/containers";
 import ProfilePhotoForm from "@/components/ui/messenger/photo/Form";
 import { getProviderByEmail } from "@/lib/data";
+import { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export const metadata: Metadata = {
+    title: 'Profile Photo'
+}
 
 export default async function ProfilePhotoPage() {
 
