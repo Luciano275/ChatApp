@@ -57,8 +57,6 @@ export const {
 
         }
       }
-
-      console.log(session)
       
       return session;
     }

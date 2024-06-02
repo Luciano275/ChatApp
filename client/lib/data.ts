@@ -180,6 +180,8 @@ export async function changeImage(image: string, email: string) {
 export async function fetchUsersByQuery(query: string, omit: string) {
   try {
 
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+
     const results = await db.user.findMany({
       select: {
         name: true,

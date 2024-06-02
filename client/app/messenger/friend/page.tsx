@@ -3,6 +3,7 @@ import Header from "@/components/ui/messenger/Header";
 import { ContainerMessages } from "@/components/ui/messenger/containers";
 import AddFriendForm from "@/components/ui/messenger/friend/FriendForm";
 import SearchUsersTable from "@/components/ui/messenger/friend/UsersTable";
+import { SearchUsersSkeleton } from "@/components/ui/skeletons/friends/search-users";
 import { Suspense } from "react";
 
 export default async function AddFriendPage(
@@ -29,7 +30,7 @@ export default async function AddFriendPage(
           <AddFriendForm />
           <Suspense
             key={`${search}`}
-            fallback={<p className="text-white">Loading...</p>}
+            fallback={<SearchUsersSkeleton />}
           >
             <SearchUsersTable query={search || ''} id={session?.user?.id!} />
           </Suspense>

@@ -35,7 +35,7 @@ export default function AddFriendForm() {
                     name="search"
                     id="search"
                     className="py-2 pl-8 pr-2 w-full outline-none bg-gray-900 rounded-xl border border-transparent focus:border-blue-500 text-white"
-                    placeholder="Search friend"
+                    placeholder="Name or email of the user"
                     onChange={(e) => handleSearch(e.target.value)}
                     defaultValue={defaultSearch || ''}
                 />

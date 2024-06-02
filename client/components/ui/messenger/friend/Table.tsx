@@ -1,6 +1,5 @@
 import { getProfilePhotoAction } from "@/lib/s3";
 import { SearchUserType } from "@/types"
-import { CgAdd } from "react-icons/cg";
 import { GrAdd } from "react-icons/gr";
 
 export default function UsersTable(
@@ -12,7 +11,7 @@ export default function UsersTable(
 
     if (!users) {
         return (
-            <h2 className="text-center text-white py-4">Busca algun usuario</h2>
+            <h2 className="text-center text-white py-4">Search some user</h2>
         )
     }
 
@@ -20,7 +19,7 @@ export default function UsersTable(
       <div className="hidden md:block mt-4">
         {!users.length ? (
           <h2 className="text-white font-semibold text-center py-4">
-            No se encontraron resultados
+            There is not result
           </h2>
         ) : (
           <table className="w-full p-2 text-white">
