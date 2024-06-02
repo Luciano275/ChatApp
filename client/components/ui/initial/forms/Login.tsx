@@ -11,6 +11,7 @@ import { ResponseMainFormAction } from "@/types";
 import FormError from "./Error";
 import FormMessage from "./FormMessage";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 export default function LoginForm() {
   const { setMessage } = useGlobalMessage();
@@ -30,6 +31,9 @@ export default function LoginForm() {
 
   const providerClassName =
     "flex justify-center items-center gap-2 bg-gray-900 rounded-lg py-3 2x:py-4 px-4 hover:bg-gray-800 text-white";
+
+  const searchParams = useSearchParams();
+  const authError = searchParams.get('error');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -58,6 +62,16 @@ export default function LoginForm() {
   const onLogin = async (provider: 'google' | 'github') => {
     await LoginOAuthAction(provider)
   }
+
+  useEffect(() => {
+    if (authError === 'OAuthAccountNotLinked') {
+      setState({
+        message: 'That account is already linked with other provider',
+        success: false,
+        errors: {}
+      })
+    }
+  }, [authError])
 
   return (
     <form
