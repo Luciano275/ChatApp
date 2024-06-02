@@ -38,19 +38,27 @@ export const {
 
       return true;
     },
-    async session({session, token, user}) {
+    async session({session, token}) {
 
       if (token) {
         session.user.id = token.sub!;
 
         if (session.user) {
-          const profilePhoto = await getProfilePhotoAction(session.user.image!);
+          
+          const user = await getUserById(token.sub!);
 
-          if (profilePhoto.success) {
-            session.user.image = profilePhoto.success.url;
+          if (user?.accounts.length === 0) {
+            const profilePhoto = await getProfilePhotoAction(session.user.image!);
+
+            if (profilePhoto.success) {
+              session.user.image = profilePhoto.success.url;
+            }
           }
+
         }
       }
+
+      console.log(session)
       
       return session;
     }

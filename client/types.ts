@@ -14,3 +14,13 @@ export type ResponseVerificationAction = {
   error?: string;
   success?: string;
 }
+
+export type SearchUserType = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  image: string | null;
+  accounts: {
+      provider: string;
+  }[];
+}

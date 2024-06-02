@@ -11,6 +11,8 @@ export default function AddFriendForm() {
     const pathname = usePathname();
     const { replace } = useRouter();
 
+    const defaultSearch = searchParams.get('search');
+
     const DEBOUNCE_TIME = 300
 
     const handleSearch = useDebouncedCallback((search: string) => {
@@ -35,6 +37,7 @@ export default function AddFriendForm() {
                     className="py-2 pl-8 pr-2 w-full outline-none bg-gray-900 rounded-xl border border-transparent focus:border-blue-500 text-white"
                     placeholder="Search friend"
                     onChange={(e) => handleSearch(e.target.value)}
+                    defaultValue={defaultSearch || ''}
                 />
                 <span className="text-neutral-400 absolute w-fit h-full flex justify-center items-center top-0 left-2">
                     <FaSearch size={17} />

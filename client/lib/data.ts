@@ -1,6 +1,7 @@
 import { db } from "./db";
 import { uuidv7 } from 'uuidv7'
 import {sendVerificationEmail} from "@/lib/mail";
+import { SearchUserType } from "@/types";
 
 export async function getUserByEmail(email: string) {
   try {
@@ -42,6 +43,19 @@ export async function getUserById(id: string) {
     const results = await db.user.findUnique({
       where: {
         id
+      },
+      select: {
+        name: true,
+        id: true,
+        accounts: {
+          select: {
+            provider: true
+          }
+        },
+        email: true,
+        emailVerified: true,
+        image: true,
+        password: true
       }
     })
 
@@ -160,5 +174,55 @@ export async function changeImage(image: string, email: string) {
   }catch (e) {
     console.error(e);
     throw new Error('Failed to change the profile photo')
+  }
+}
+
+export async function fetchUsersByQuery(query: string, omit: string) {
+  try {
+
+    const results = await db.user.findMany({
+      select: {
+        name: true,
+        image: true,
+        email: true,
+        id: true,
+        accounts: {
+          select: {
+            provider: true
+          }
+        }
+      },
+      where: {
+        AND: [
+          {
+            id: {
+              not: omit
+            }
+          },
+          {
+            OR: [
+              {
+                name: {
+                  contains: query,
+                  mode: 'insensitive'
+                }
+              },
+              {
+                email: {
+                  contains: query,
+                  mode: 'insensitive'
+                }
+              }
+            ]
+          }
+        ]
+      }
+    })
+
+    return results as SearchUserType[]
+
+  }catch (e) {
+    console.log(e)
+    throw new Error('Failed to fetch users by query')
   }
 }
