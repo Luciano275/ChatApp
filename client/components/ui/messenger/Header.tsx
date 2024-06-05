@@ -2,6 +2,7 @@ import { auth } from "@/auth";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import BackButton from "./Back";
+import { IoNotifications } from "react-icons/io5";
 
 export default async function Header(
     {className}
@@ -33,8 +34,17 @@ export default async function Header(
             </Link>
           </div>
           <h1 className="hidden md:block text-lg sm:text-xl text-white grow whitespace-nowrap text-nowrap overflow-hidden text-ellipsis">{user?.name}</h1>
-          
-          <BackButton />
+
+          <div className="flex gap-5 items-center">
+            <div className="indicator">
+              <span className="indicator-item badge badge-error badge-xs"></span>
+              <Link href={'/messenger/notifies'} className="text-neutral-300 hover:text-white">
+                <IoNotifications size={25} />
+              </Link>
+            </div>
+
+            <BackButton />
+          </div>
         </header>
     )
 }
