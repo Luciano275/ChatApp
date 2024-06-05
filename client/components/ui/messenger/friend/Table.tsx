@@ -5,55 +5,49 @@ import { GrAdd } from "react-icons/gr";
 export default function UsersTable(
     {users}
     : {
-        users: SearchUserType[] | undefined
+        users: SearchUserType[]
     }
 ) {
-
-    if (!users) {
-        return (
-            <h2 className="text-center text-white py-4">Search some user</h2>
-        )
-    }
-
     return (
-      <div className="hidden md:block mt-4">
+      <div className="hidden lg:block mt-4">
         {!users.length ? (
           <h2 className="text-white font-semibold text-center py-4">
             There is not result
           </h2>
         ) : (
-          <table className="w-full p-2 text-white">
+          <table className="table">
             <thead className="bg-gray-800">
-                <tr>
-                    <th className="border border-gray-900 py-3 px-1">User</th>
-                    <th className="border border-gray-900 py-3 px-1">Email</th>
-                    <th className="border border-gray-900 py-3 px-1">Action</th>
+                <tr className="text-white">
+                    <th className="text-center">User</th>
+                    <th className="text-center">Email</th>
+                    <th className="text-center">Action</th>
                 </tr>
             </thead>
 
             <tbody>
             {users.map(async ({ id, name, image, email, accounts }, index) => (
-                <tr key={id} className="border-b border-gray-800">
-                  <td className="py-3 px-1 min-w-[150px] flex justify-center items-center gap-2">
-                    <span>
-                      <img
-                        src={accounts.length ? `${image}` : (
-                            (await getProfilePhotoAction(image!)).success?.url
-                        )}
-                        alt={"Photo"}
-                        className="w-full max-w-[32px] h-full max-h-[32px] rounded-full object-cover"
-                      />
-                    </span>
+                <tr key={id} className="hover:bg-base-300">
+                  <td className="flex gap-2 items-center justify-center">
+                    <div className="avatar">
+                      <div className="mask mask-circle w-10 h-10">
+                        <img
+                          src={accounts.length ? `${image}` : (
+                              (await getProfilePhotoAction(image!)).success?.url
+                          )}
+                          alt={"Photo"}
+                        />
+                      </div>
+                    </div>
                     <span>{name}</span>
                   </td>
                   <td
-                    className="py-3 px-1 text-center whitespace-nowrap break-all overflow-hidden text-ellipsis min-w-[300px]"
+                    className="text-center"
                     title={`${email}`}
                   >
                     {email}
                   </td>
-                  <td className="min-w-[150px] text-center">
-                    <button className="w-fit p-1 bg-green-700 rounded-xl mx-auto hover:bg-green-900">
+                  <td className="text-center">
+                    <button className="btn btn-circle btn-success btn-sm text-white">
                         <GrAdd size={25} />
                     </button>
                   </td>
