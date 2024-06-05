@@ -200,18 +200,19 @@ export default function ProfilePhotoForm(
           </button>
 
           {info.message && (
-            <p
-              className={`${
-                info.success ? "bg-green-600" : "bg-red-500"
-              } text-sm text-white p-2 rounded-xl bg-opacity-50 flex justify-start gap-2 items-center`}
+            <div
+              role={"alert"}
+              className={`alert ${
+                info.success ? "alert-success" : "alert-error"
+              } p-2 text-white`}
             >
               {info.success ? (
                 <FaCheckCircle size={20} />
               ) : (
                 <BiError size={20} />
               )}
-              {info.message}
-            </p>
+              <span>{info.message}</span>
+            </div>
           )}
         </form>
       </Fragment>

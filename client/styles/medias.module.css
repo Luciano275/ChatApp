@@ -1,0 +1,10 @@
+.initial_container {
+    justify-content: center;
+}
+
+@media (height <= 768px) {
+    .initial_container {
+        justify-content: start;
+        padding-top: 40px;
+    }
+}

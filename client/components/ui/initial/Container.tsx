@@ -1,4 +1,5 @@
 import Footer from "@/components/ui/Footer";
+import mediaStyles from '@/styles/medias.module.css'
 
 export default function Container({
   className,
@@ -9,7 +10,7 @@ export default function Container({
 }) {
   return (
     <div
-      className={`flex flex-col justify-center bg-gray-950 py-4 ${className}`}
+      className={`min-h-dvh max-h-dvh flex flex-col overflow-y-auto bg-gray-950 py-4 ${className} ${mediaStyles['initial_container']}`}
     >
       {children}
       <Footer />
