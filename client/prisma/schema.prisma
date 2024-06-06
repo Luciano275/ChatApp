@@ -34,13 +34,17 @@ model Account {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String          @id @default(cuid())
   name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
-  image         String? @default("default.png")
+  email         String?         @unique
+  emailVerified DateTime?       @map("email_verified")
+  image         String?         @default("default.png")
   accounts      Account[]
   password      String?
+  byUser        FriendRequest[] @relation("by")
+  forUser       FriendRequest[] @relation("for")
+  user          Friend[]        @relation("user")
+  friend        Friend[]        @relation("friend")
 
   @@map("users")
 }
@@ -53,4 +57,27 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model FriendRequest {
+  id   String   @id @default(uuid())
+  by   String
+  for  String
+  date DateTime
+
+  byUser  User @relation("by", fields: [by], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  forUser User @relation("for", fields: [for], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([id])
+}
+
+model Friend {
+  id       String @id @default(uuid())
+  userId   String
+  friendId String
+
+  user   User @relation("user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  friend User @relation("friend", fields: [friendId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([id])
 }

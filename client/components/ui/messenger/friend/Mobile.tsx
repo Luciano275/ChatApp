@@ -2,6 +2,7 @@ import { getProfilePhotoAction } from '@/lib/s3';
 import { SearchUserType } from '@/types';
 import React from 'react';
 import { GrAdd } from 'react-icons/gr';
+import AddFriendButton from './AddFriendButton';
 
 export default function MobileUsersForm(
     {users}
@@ -39,9 +40,7 @@ export default function MobileUsersForm(
                 </p>
               </div>
               <div>
-                <button className="btn btn-circle btn-success btn-sm text-white">
-                    <GrAdd size={25} />
-                </button>
+                <AddFriendButton />
               </div>
             </div>
           ))

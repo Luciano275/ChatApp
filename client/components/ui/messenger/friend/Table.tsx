@@ -1,6 +1,7 @@
 import { getProfilePhotoAction } from "@/lib/s3";
 import { SearchUserType } from "@/types"
 import { GrAdd } from "react-icons/gr";
+import AddFriendButton from "./AddFriendButton";
 
 export default function UsersTable(
     {users}
@@ -47,9 +48,7 @@ export default function UsersTable(
                     {email}
                   </td>
                   <td className="text-center">
-                    <button className="btn btn-circle btn-success btn-sm text-white">
-                        <GrAdd size={25} />
-                    </button>
+                    <AddFriendButton />
                   </td>
                 </tr>
               ))}
